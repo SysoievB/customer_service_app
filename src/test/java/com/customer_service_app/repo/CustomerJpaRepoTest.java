@@ -7,13 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @DataJpaTest
-@Sql({"/sql/create.sql"})//, "/sql/populate.sql"
+@SqlGroup({
+        @Sql(scripts = {"/sql/create.sql", "/sql/populate.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS),
+        @Sql(statements = {"drop table customer;"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
+})
 class CustomerJpaRepoTest {
     private final static String COUNTRY = "USA";
 
@@ -24,16 +28,29 @@ class CustomerJpaRepoTest {
 
     @Test
     void returns_all_by_country() {
-        //given
-       manager.persist(getCustomer());
-       manager.persist(getCustomer());
-       manager.persist(getCustomer());
-
         //when
         val result = repo.findAllByCountry(COUNTRY);
 
         //then
         assertThat(result).hasSize(3);
+    }
+
+    @Test
+    void save_new_customer() {
+        //given
+        val customer = getCustomer();
+        manager.persist(customer);
+        manager.flush();
+
+        //when
+        val result = repo.save(customer);
+        manager.clear();
+
+        //then
+        assertThat(result)
+                .returns("Ivan", Customer::getName)
+                .returns("Ivanov", Customer::getSurname)
+                .returns(COUNTRY, Customer::getCountry);
     }
 
     private Customer getCustomer() {

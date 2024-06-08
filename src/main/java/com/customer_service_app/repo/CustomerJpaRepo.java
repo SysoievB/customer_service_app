@@ -20,7 +20,7 @@ public interface CustomerJpaRepo extends JpaRepository<Customer, Long>, JpaSpeci
     List<Customer> findAllByCountry(String country);
 
     default List<Customer> findByCountryAndBirthDateBetween(String country, @Nullable LocalDate from, @Nullable LocalDate to) {
-        val specification = where(getByCountry(country));
+        val specification = where(getByCountry(country)).and(dateBetween(from, to));
         return findAll(specification);
     }
 
