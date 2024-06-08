@@ -1,6 +1,6 @@
 create table customer
 (
-    id         bigint auto_increment primary key,
+    id         bigint not null auto_increment primary key,
     name       varchar(255),
     surname    varchar(255),
     birth_date date,
