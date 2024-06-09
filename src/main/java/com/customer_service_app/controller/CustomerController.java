@@ -73,4 +73,9 @@ public class CustomerController {
     ResponseEntity<String> advice(@RequestParam String str) {
         return ResponseEntity.ok(service.forAroundAdvice(str));
     }
+
+    @PostMapping("/set-country-advice")
+    ResponseEntity<List<Customer>> setCountryAdvice(@RequestParam String country) {
+        return ResponseEntity.ok(service.setCountryToEachCustomer(country));
+    }
 }
