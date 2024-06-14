@@ -60,4 +60,8 @@ public class Customer {
         this.country = country;
         return this;
     }
+
+    public static Customer getEmptyCustomer() {
+        return new Customer("", "", LocalDate.now(), "");
+    }
 }
