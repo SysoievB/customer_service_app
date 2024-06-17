@@ -13,8 +13,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 
 @Entity
@@ -41,11 +44,18 @@ public class Customer {
     @Transient
     int age;
 
+    @CreationTimestamp
+    ZonedDateTime createdAt;
+
+    @UpdateTimestamp
+    ZonedDateTime updatedAt;
+
     public Customer(String name, String surname, LocalDate birthDate, String country) {
         this.name = name;
         this.surname = surname;
         this.birthDate = birthDate;
         this.country = country;
+        this.createdAt = ZonedDateTime.now();
     }
 
     @PostLoad
@@ -58,6 +68,7 @@ public class Customer {
         this.surname = surname;
         this.birthDate = birthDate;
         this.country = country;
+        this.updatedAt = ZonedDateTime.now();
         return this;
     }
 

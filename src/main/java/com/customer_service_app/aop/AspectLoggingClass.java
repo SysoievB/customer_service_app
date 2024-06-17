@@ -2,7 +2,6 @@ package com.customer_service_app.aop;
 
 import com.customer_service_app.entity.Customer;
 import com.customer_service_app.repo.CustomerJpaRepo;
-import com.customer_service_app.service.CustomerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -57,6 +56,15 @@ public class AspectLoggingClass {
         args[0] = STR."\{args[0]} THIS STRING WAS CHANGED FROM AROUND ADVICE";
         log.info("-----------------AROUND ADVICE END--------------------------");
         return joinPoint.proceed(args);
+    }
+
+    @AfterReturning(pointcut = "execution(* findBy*(Long))", returning = "customer")
+    public void aroundAdviceForFindByIdForCheckingTimestamp(Object customer) {
+        log.info("-----------------TIMESTAMP IS--------------------------");
+        val result = (Customer) customer;
+        val logText = STR."--------created - \{result.getCreatedAt()} updated - \{result.getUpdatedAt()}";
+        System.out.println(logText);
+        log.info(logText);
     }
 
     @AfterReturning("forAfterReturningAndAroundAdvicePointcut()")
