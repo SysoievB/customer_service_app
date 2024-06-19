@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @RestController
@@ -77,5 +78,11 @@ public class CustomerController {
     @PostMapping("/set-country-advice")
     ResponseEntity<List<Customer>> setCountryAdvice(@RequestParam String country) {
         return ResponseEntity.ok(service.setCountryToEachCustomer(country));
+    }
+
+    @PostMapping("/converter")
+    ResponseEntity<ZonedDateTime> get(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime dateTime) {
+        return ResponseEntity.ok(dateTime);
     }
 }
