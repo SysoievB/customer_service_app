@@ -37,7 +37,7 @@ public class CustomerController {
     @GetMapping("/{id}")
     ResponseEntity<Customer> get(@PathVariable Long id) {
         val found = service.findById(id);
-        return ResponseEntity.ofNullable(found);
+        return ResponseEntity.ok(found);
     }
 
     @GetMapping("/country")
