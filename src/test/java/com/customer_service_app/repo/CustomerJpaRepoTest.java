@@ -50,6 +50,7 @@ class CustomerJpaRepoTest {
         assertThat(result)
                 .returns("Ivan", Customer::getName)
                 .returns("Ivanov", Customer::getSurname)
+                .returns(LocalDate.now(), Customer::getBirthDate)
                 .returns(COUNTRY, Customer::getCountry);
     }
 
