@@ -85,4 +85,9 @@ public class CustomerController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime dateTime) {
         return ResponseEntity.ok(dateTime);
     }
+
+    @GetMapping("/test")
+    public String getTestMessage(){
+        return "Hello World... I'm ready..";
+    }
 }
