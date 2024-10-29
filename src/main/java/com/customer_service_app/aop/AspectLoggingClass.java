@@ -20,8 +20,6 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.lang.StringTemplate.STR;
-
 @Slf4j
 @Aspect
 @Component
